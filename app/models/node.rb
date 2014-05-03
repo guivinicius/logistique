@@ -20,8 +20,9 @@ class Node < ActiveRecord::Base
     :presence => true,
     :uniqueness => { :scope => :map_id }
 
-  belongs_to :map
+  validates :map_id,
+    :presence => true
 
-  has_many :edges
+  belongs_to :map
 
 end
