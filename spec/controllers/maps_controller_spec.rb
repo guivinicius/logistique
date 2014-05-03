@@ -5,7 +5,7 @@ describe MapsController do
   describe "POST 'create'" do
 
     let(:request_headers) do
-      { "HTTP_ACCEPT" => "application/json", "Content-Type" => "application/json" }
+      { 'HTTP_ACCEPT' => 'application/json', 'Content-Type' => 'application/json' }
     end
 
     let(:network) do
@@ -76,6 +76,15 @@ describe MapsController do
           create(:map, :name => "Public")
           post :create, :network => network, :map => {:name => 'Public'}
           expect(response.body).to include("has already been taken")
+        end
+
+      end
+
+      describe 'when passing no network' do
+
+        it 'returns a error' do
+          post :create, :network => '', :map => {:name => 'Public'}
+          expect(response.body).to include("network can't be empty")
         end
 
       end
