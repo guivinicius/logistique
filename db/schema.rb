@@ -11,10 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140503141727) do
+ActiveRecord::Schema.define(version: 20140503150118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
+  enable_extension "pgrouting"
 
   create_table "edges", force: true do |t|
     t.integer  "source"
@@ -44,5 +46,13 @@ ActiveRecord::Schema.define(version: 20140503141727) do
 
   add_index "nodes", ["map_id", "name"], name: "index_nodes_on_map_id_and_name", unique: true, using: :btree
   add_index "nodes", ["map_id"], name: "index_nodes_on_map_id", using: :btree
+
+  create_table "spatial_ref_sys", id: false, force: true do |t|
+    t.integer "srid",                   null: false
+    t.string  "auth_name", limit: 256
+    t.integer "auth_srid"
+    t.string  "srtext",    limit: 2048
+    t.string  "proj4text", limit: 2048
+  end
 
 end
