@@ -1,4 +1,3 @@
-logistique
-==========
+# Logistique
 
 Simple logistic system
