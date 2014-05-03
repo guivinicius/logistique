@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(version: 20140503135157) do
 
   create_table "nodes", force: true do |t|
     t.string   "name"
+    t.integer  "map_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "nodes", ["name"], name: "index_nodes_on_name", using: :btree
+  add_index "nodes", ["map_id", "name"], name: "index_nodes_on_map_id_and_name", unique: true, using: :btree
+  add_index "nodes", ["map_id"], name: "index_nodes_on_map_id", using: :btree
 
 end
