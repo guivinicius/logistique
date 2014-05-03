@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140503135157) do
+ActiveRecord::Schema.define(version: 20140503141727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "edges", force: true do |t|
+    t.integer  "source"
+    t.integer  "target"
+    t.float    "cost"
+    t.integer  "map_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "edges", ["map_id"], name: "index_edges_on_map_id", using: :btree
 
   create_table "maps", force: true do |t|
     t.string   "name"
