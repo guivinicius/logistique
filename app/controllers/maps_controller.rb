@@ -1,5 +1,4 @@
 class MapsController < ApplicationController
-
   def create
     @map = Map.new(name: params[:map][:name])
     if @map.save
@@ -14,7 +13,6 @@ class MapsController < ApplicationController
     else
       render json: @map.errors
     end
-
   end
 
   def best_route
@@ -22,11 +20,10 @@ class MapsController < ApplicationController
     route = Route.new(@map, params[:source], params[:target])
 
     if route.calculate
-      cost  = route.length.to_f * (params[:fuel_price].to_f / params[:vehicle_autonomy].to_f)
+      cost  = DeliveryCostService.new(route.length, params[:vehicle_autonomy], params[:fuel_price]).cost
       render json: { route: route.path, cost: cost }
     else
       render json: route.errors
     end
   end
-
 end
