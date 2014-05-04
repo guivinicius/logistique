@@ -9,9 +9,7 @@ class TopologyService
     # Adding everything into one single transaction
     ActiveRecord::Base.transaction do
       # Iterating through network
-      puts @network
       @network.each_line do |s|
-        puts s
         edge   = s.split(' ')
 
         # Creating nodes or finding it
