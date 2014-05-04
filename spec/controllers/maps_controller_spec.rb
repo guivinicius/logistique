@@ -31,11 +31,6 @@ describe MapsController do
         expect(response.body).to include('Test')
       end
 
-      it 'assigns @map' do
-        post :create, { map: valid_params }
-        expect(assigns(:map)).to be_kind_of(Map)
-      end
-
       it 'creates a new map' do
         expect {
           post :create, { map: valid_params }

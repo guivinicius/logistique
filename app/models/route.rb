@@ -26,7 +26,7 @@ class Route
   private
 
   def find_node(name)
-    @map.nodes.find_by(name: name)
+    @map.nodes.find_by(name: name) if @map
   end
 
   def pgr_dijkstra

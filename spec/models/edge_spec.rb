@@ -19,11 +19,11 @@ require 'spec_helper'
 
 describe Edge do
   let(:map)  { create(:map) }
-  let(:source_node) { create(:node, :map_id => map.id, :name => 'A') }
-  let(:target_node) { create(:node, :map_id => map.id, :name => 'B') }
+  let(:source_node) { create(:node, map_id: map.id, name: 'A') }
+  let(:target_node) { create(:node, map_id: map.id, name: 'B') }
 
   let(:edge) {
-    create(:edge, :map_id => map.id, :source => source_node.id, :target => target_node.id, :cost => 10)
+    create(:edge, map_id: map.id, source: source_node.id, target: target_node.id, cost: 10)
   }
 
   it 'is valid with valid attributes' do
