@@ -16,18 +16,8 @@
 #
 
 class Edge < ActiveRecord::Base
-
   validates :source, :target, :cost, :map_id,
-    :presence => true
+            presence: true
 
   belongs_to :map
-
-  belongs_to :source_node,
-    :class_name => "Node",
-    :foreign_key => "source"
-
-  belongs_to :target_node,
-    :class_name => "Node",
-    :foreign_key => "target"
-
 end

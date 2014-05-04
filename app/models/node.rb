@@ -15,14 +15,12 @@
 #
 
 class Node < ActiveRecord::Base
-
   validates :name,
-    :presence => true,
-    :uniqueness => { :scope => :map_id }
+            presence: true,
+            uniqueness: { scope: :map_id }
 
   validates :map_id,
-    :presence => true
+            presence: true
 
   belongs_to :map
-
 end

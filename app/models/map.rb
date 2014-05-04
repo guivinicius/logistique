@@ -13,15 +13,10 @@
 #
 
 class Map < ActiveRecord::Base
-
   validates :name,
-    :presence => true,
-    :uniqueness => true
+            presence: true,
+            uniqueness: true
 
-  has_many :nodes,
-    :dependent => :destroy
-
-  has_many :edges,
-    :dependent => :destroy
-
+  has_many :nodes, dependent: :destroy
+  has_many :edges, dependent: :destroy
 end
