@@ -1,8 +1,14 @@
 class TopologyService
+  include ActiveModel::Validations
+
+  attr_accessor :map, :network
+
+  validates :map, :network,
+            presence: true
 
   def initialize(map, network)
-    @map     = map
-    @network = network
+    @map      = map
+    @network  = network
   end
 
   def create!
@@ -19,8 +25,6 @@ class TopologyService
         # Creating edge
         Edge.create(source: source.id, target: target.id, cost: edge[2], map: @map)
       end
-    end if @map.valid? && @network
-
+    end if valid?
   end
-
 end

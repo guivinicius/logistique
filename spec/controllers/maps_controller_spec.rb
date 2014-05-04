@@ -52,20 +52,20 @@ describe MapsController do
 
     context 'with invalid parameters' do
 
-      describe 'when passing no name' do
+      describe 'when passing no map name' do
 
         it 'returns a error' do
-          post :create, :network => network, :map => {:name => ''}
+          post :create, map: { name: '', network: network }
           expect(response.body).to include("can't be blank")
         end
 
       end
 
-      describe 'when passing an existing name' do
+      describe 'when passing an existing map name' do
 
         it 'returns a error' do
-          create(:map, :name => "Public")
-          post :create, :network => network, :map => {:name => 'Public'}
+          create(:map, name: "Public")
+          post :create, map: { name: 'Public', network: network }
           expect(response.body).to include("has already been taken")
         end
 
@@ -74,8 +74,8 @@ describe MapsController do
       describe 'when passing no network' do
 
         it 'returns a error' do
-          post :create, :network => '', :map => {:name => 'Public'}
-          expect(response.body).to include("network can't be empty")
+          post :create, map: { name: 'Public', network: '' }
+          expect(response.body).to include("can't be blank")
         end
 
       end

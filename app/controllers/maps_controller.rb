@@ -1,15 +1,15 @@
 class MapsController < ApplicationController
   def create
-    map = Map.new(name: params[:map][:name])
-    if map.save
+    map      = Map.new(name: params[:map][:name])
+    topology = TopologyService.new(map, params[:map][:network])
 
-      if params[:map][:network]
-        TopologyService.new(map, params[:map][:network]).create!
+    if map.save
+      if topology.create!
         render json: map
       else
-        render json: "network can't be empty"
+        map.destroy
+        render json: topology.errors
       end
-
     else
       render json: map.errors
     end
