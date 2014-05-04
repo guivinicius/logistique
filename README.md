@@ -134,7 +134,13 @@ curl -X POST \
  - fuel_price
 
 ```bash
-curl -X GET \
+$ curl -X GET \
      -d "source=A&target=D&vehicle_autonomy=10&fuel_price=2.50" \
      http://localhost:3000/maps/4/best_route
+
+#result
+{
+  "route":"A B D",
+  "cost":6.25
+}
 ```
