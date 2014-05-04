@@ -93,16 +93,19 @@ describe MapsController do
   end
 
   describe "GET 'best_route'" do
-
-    before do
-      @map = create(:map)
-      TopologyService.new(@map, network).create!
-    end
+    let(:map)       { create(:map) }
+    let!(:topology) { TopologyService.new(map, network).create! }
 
     context 'with valid parameters' do
 
       let(:valid_params) do
-        { id: @map.id, source: 'A', target: 'D', vehicle_autonomy: 10, fuel_price: 2.50 }
+        {
+          id: map.id,
+          source: 'A',
+          target: 'D',
+          vehicle_autonomy: 10,
+          fuel_price: 2.50
+        }
       end
 
       it 'responds successfully' do
@@ -118,6 +121,80 @@ describe MapsController do
       it 'returns the route cost' do
         get :best_route, valid_params
         expect(response.body).to include('6.25')
+      end
+
+    end
+
+    context 'with invalid parameters' do
+
+      context 'when passing a wrong source' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'J', target: 'D', vehicle_autonomy: 10, fuel_price: 2.50 }
+          get :best_route, params
+          expect(response.body).to include("can't be blank")
+        end
+
+      end
+
+      context 'when passing a wrong target' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', target: 'J', vehicle_autonomy: 10, fuel_price: 2.50 }
+          get :best_route, params
+          expect(response.body).to include("can't be blank")
+        end
+
+      end
+
+      context 'when passing a empty target' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', target: '', vehicle_autonomy: 10, fuel_price: 2.50 }
+          get :best_route, params
+          expect(response.body).to include("can't be blank")
+        end
+
+      end
+
+      context 'when passing a empty fuel_price' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', target: 'D', vehicle_autonomy: 10, fuel_price: '' }
+          get :best_route, params
+          expect(response.body).to include("must be greater than 0")
+        end
+
+      end
+
+      context 'when passing a empty vehicle_autonomy' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', target: 'D', vehicle_autonomy: '', fuel_price: 2.50 }
+          get :best_route, params
+          expect(response.body).to include("must be greater than 0")
+        end
+
+      end
+
+      context 'without target' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', vehicle_autonomy: 10, fuel_price: 2.50 }
+          get :best_route, params
+          expect(response.body).to include("can't be blank")
+        end
+
+      end
+
+      context 'without fuel_price' do
+
+        it 'returns an error' do
+          params = { id: map.id, source: 'A', target: 'D', vehicle_autonomy: 10 }
+          get :best_route, params
+          expect(response.body).to include("must be greater than 0")
+        end
+
       end
 
     end

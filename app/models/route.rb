@@ -26,7 +26,7 @@ class Route
   private
 
   def find_node(name)
-    @map.nodes.find_by(:name => name)
+    @map.nodes.find_by(name: name)
   end
 
   def pgr_dijkstra
@@ -40,8 +40,4 @@ class Route
            #{source.id}, #{target.id}, false, false);
     eos
   end
-
-#   cost = DeliveryCostService.new(route.length, params[:fuel_price], params[:vehicle_autonomy]).calculate!
-#
-
 end
