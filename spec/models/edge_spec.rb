@@ -29,17 +29,4 @@ describe Edge do
   it 'is valid with valid attributes' do
     expect(edge).to be_valid
   end
-
-  describe '#source_node' do
-    it 'returns the expected node' do
-      expect(edge.source_node).to eq(source_node)
-    end
-  end
-
-  describe '#target_node' do
-    it 'returns the expected node' do
-      expect(edge.target_node).to eq(target_node)
-    end
-  end
-
 end

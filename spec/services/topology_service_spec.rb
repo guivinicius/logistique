@@ -15,20 +15,38 @@ describe TopologyService do
     eos
   end
 
+  let(:single_line_network) { "A B 10\nB D 15\nA C 20\nC D 30\nB E 50\nD E 30" }
+
   describe "#create!" do
 
     context 'when attributes are valid' do
 
-      it 'creates new nodes' do
-        expect {
-          TopologyService.new(map, network).create!
-        }.to change(Node, :count).by(5)
+      context 'with multiline network' do
+        it 'creates new nodes' do
+          expect {
+            TopologyService.new(map, network).create!
+          }.to change(Node, :count).by(5)
+        end
+
+        it 'creates new edges' do
+          expect {
+            TopologyService.new(map, network).create!
+          }.to change(Edge, :count).by(6)
+        end
       end
 
-      it 'creates new edges' do
-        expect {
-          TopologyService.new(map, network).create!
-        }.to change(Edge, :count).by(6)
+      context 'with singleline network' do
+        it 'creates new nodes' do
+          expect {
+            TopologyService.new(map, single_line_network).create!
+          }.to change(Node, :count).by(5)
+        end
+
+        it 'creates new edges' do
+          expect {
+            TopologyService.new(map, single_line_network).create!
+          }.to change(Edge, :count).by(6)
+        end
       end
     end
 
