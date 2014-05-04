@@ -2,21 +2,21 @@ require 'spec_helper'
 
 describe MapsController do
 
+  let(:network) do
+    <<-eos
+      A B 10
+      B D 15
+      A C 20
+      C D 30
+      B E 50
+      D E 30
+    eos
+  end
+
   describe "POST 'create'" do
 
     let(:request_headers) do
       { 'HTTP_ACCEPT' => 'application/json', 'Content-Type' => 'application/json' }
-    end
-
-    let(:network) do
-      <<-eos
-        A B 10
-        B D 15
-        A C 20
-        C D 30
-        B E 50
-        D E 30
-      eos
     end
 
     context 'with valid parameters' do
@@ -88,7 +88,37 @@ describe MapsController do
         end
 
       end
+    end
 
+  end
+
+  describe "GET 'best_route'" do
+
+    before do
+      @map = create(:map)
+      TopologyService.new(@map, network).create!
+    end
+
+    context 'with valid parameters' do
+
+      let(:valid_params) do
+        { id: @map.id, source: 'A', target: 'D', vehicle_autonomy: 10, fuel_price: 2.50 }
+      end
+
+      it 'responds successfully' do
+        get :best_route, valid_params
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns the best route' do
+        get :best_route, valid_params
+        expect(response.body).to include('A B D')
+      end
+
+      it 'returns the route cost' do
+        get :best_route, valid_params
+        expect(response.body).to include('6.25')
+      end
 
     end
 
