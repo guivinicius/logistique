@@ -11,6 +11,7 @@ class TopologyService
     @network  = network
   end
 
+  # FIXME: background job ?
   def create!
     # Adding everything into one single transaction
     ActiveRecord::Base.transaction do
@@ -19,11 +20,11 @@ class TopologyService
         edge   = s.split(' ')
 
         # Creating nodes or finding it
-        source = Node.find_or_create_by(name: edge[0], map: @map)
-        target = Node.find_or_create_by(name: edge[1], map: @map)
+        source = Node.find_or_create_by(name: edge[0], map_id: @map.id)
+        target = Node.find_or_create_by(name: edge[1], map_id: @map.id)
 
         # Creating edge
-        Edge.create(source: source.id, target: target.id, cost: edge[2], map: @map)
+        Edge.create(source: source.id, target: target.id, cost: edge[2], map_id: @map.id)
       end
     end if valid?
   end
